@@ -9,7 +9,11 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+//routes
+import adminRoute from "./routes/admin.routes.js";
+app.use("/api/v1/admin", adminRoute);
 
 export default app;
