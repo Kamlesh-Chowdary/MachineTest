@@ -21,4 +21,8 @@ registerSchema.pre("save", async function (next) {
   next();
 });
 
+registerSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
 export const Register = mongoose.model("register", registerSchema);
