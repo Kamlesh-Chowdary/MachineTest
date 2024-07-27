@@ -12,9 +12,11 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.adminName = action.payload;
       state.status = true;
+      window.localStorage.setItem("admin", action.payload);
     },
     logout: (state) => {
       (state.adminName = ""), (state.status = false);
+      window.localStorage.removeItem("admin");
     },
   },
 });
