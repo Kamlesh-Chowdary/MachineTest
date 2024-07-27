@@ -3,6 +3,16 @@ import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
+const deleteImage = (filePath)=>{
+    FileSystem.unlink(filePath,(err)=>{
+        if(err){
+            throw new ApiError(409,"Error while deleting the image")
+        }else{
+            return true
+        }
+    })
+}
+
 const createEmployee = asyncHandler(async (req, res) => {
     const {name, email, phoneNumber, designation, gender, course} = req.body;
     if([name, email, phoneNumber, designation, gender,course].some(field=> field?.trim() === "")){
@@ -42,4 +52,53 @@ const getEmployees = asyncHandler( async (req, res) => {
     res.status(200).json(new ApiResponse(201, employee, "Employee Data fetched successfully"))
 })
 
-export {createEmployee, getEmployees}
+const modifyEmployee = asyncHandler(async (req, res) => {
+    const {employeeId} = req.params;
+
+    if(!employeeId){
+        throw new ApiError(404,"Employee Id is required")
+    }
+
+    const employeeExist = await Employee.findById(employeeId);
+
+    if(!employeeExist){
+        throw new ApiError(404,"Invalid Employee Id")
+    }
+    
+    const {name, email, phoneNumber, designation, gender, course} = req.body;
+    if([name, email, phoneNumber, designation, gender,course].some(field=> field?.trim() === "")){
+        throw new ApiError(400, "All fields are required.")
+    }
+
+    deleteImage(employeeExist.image);
+
+    const imageFilePath = req.file?.path;
+    if(!imageFilePath){
+        throw new ApiError(400, "Employee Image is required");
+    }
+    const updateEmployee = await Employee.findByIdAndUpdate(
+        employeeId,
+        {
+            name,
+            email,
+            phoneNumber,
+            designation,
+            gender,
+            course,
+            image: imageFilePath
+         },
+        {
+            new: true
+        }
+    )
+
+    if(!updateEmployee){
+        throw new ApiError(404,"Error while updating the employee details")
+    }
+
+    res.status(200).json(201, updateEmployee, "Employee details updated successfully")
+})
+
+
+
+export {createEmployee, getEmployees, modifyEmployee}
