@@ -12,6 +12,7 @@ const employeeSchema = new mongoose.Schema(
       lowercase: true,
       unique: true,
       trim: true,
+      minLength: [4, "Employee FullName should have atleast 4 characters"],
     },
     email: {
       type: String,
@@ -34,14 +35,14 @@ const employeeSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      validate:{
-        validator: (value)=>{
-          return /^\d{10}$/g.test(value)
+      validate: {
+        validator: (value) => {
+          return /^\d{10}$/g.test(value);
         },
         message: () => {
-          return "Invalid Phonenumber"
-        }
-      }
+          return "Invalid Phonenumber";
+        },
+      },
     },
     designation: {
       type: String,

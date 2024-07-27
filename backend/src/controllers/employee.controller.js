@@ -124,4 +124,32 @@ const modifyEmployee = asyncHandler(async (req, res) => {
     );
 });
 
-export { createEmployee, getEmployees, modifyEmployee };
+const deleteEmployee = asyncHandler(async (req, res) => {
+  const { employeeId } = req.params;
+
+  if (!employeeId) {
+    throw new ApiError(401, "Employee Id is required");
+  }
+  const employeeExist = await Employee.findById(employeeId);
+  if (!employeeExist) {
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, {}, "Employee with this Id is already deleted")
+      );
+  } else {
+    deleteImage(employeeExist.image);
+
+    const employeeToDelete = await Employee.findByIdAndDelete(employeeId);
+    if (!employeeToDelete) {
+      throw new ApiError(409, "Error while deleting the employee");
+    }
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse(201, employeeToDelete, "Employee Deleted Successfully")
+      );
+  }
+});
+export { createEmployee, getEmployees, modifyEmployee, deleteEmployee };

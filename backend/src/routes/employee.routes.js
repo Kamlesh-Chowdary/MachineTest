@@ -2,6 +2,7 @@ import Routes from "express";
 import { upload } from "../middlewares/multer.middleware.js";
 import {
   createEmployee,
+  deleteEmployee,
   getEmployees,
   modifyEmployee,
 } from "../controllers/employee.controller.js";
@@ -12,5 +13,6 @@ employeeRoute.route("/create").post(upload.single("image"), createEmployee);
 employeeRoute.route("/get-employee").get(getEmployees);
 employeeRoute
   .route("/modify/:employeeId")
-  .post(upload.single("image"), modifyEmployee);
+  .patch(upload.single("image"), modifyEmployee);
+employeeRoute.route("/delete/:employeeId").get(deleteEmployee);
 export default employeeRoute;
