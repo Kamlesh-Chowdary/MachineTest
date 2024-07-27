@@ -28,25 +28,32 @@ const employeeSchema = new mongoose.Schema(
           return "Invalid Email Address";
         },
       },
-      phoneNumber: {
-        type: Number,
-        required: true,
-        unique: true,
-        trim: true,
-        min: [10, "Enter a valid Phone number"],
-      },
-      designation: {
-        type: String,
-        required: true,
-      },
-      gender: {
-        type: String,
-        required: true,
-      },
-      course: {
-        type: String,
-        required: true,
-      },
+    },
+    phoneNumber: {
+      type: Number,
+      required: true,
+      unique: true,
+      trim: true,
+      validate:{
+        validator: (value)=>{
+          return /^\d{10}$/g.test(value)
+        },
+        message: () => {
+          return "Invalid Phonenumber"
+        }
+      }
+    },
+    designation: {
+      type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      required: true,
+    },
+    course: {
+      type: String,
+      required: true,
     },
   },
   {
