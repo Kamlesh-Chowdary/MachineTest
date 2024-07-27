@@ -34,4 +34,12 @@ const createEmployee = asyncHandler(async (req, res) => {
     res.status(200).json( new ApiResponse(201, createdEmployee,"Employee created successfully"))
 })
 
-export {createEmployee}
+const getEmployees = asyncHandler( async (req, res) => {
+    const employee = await Employee.find({}).select("-__v");
+    if(!employee){
+        throw new ApiError(404, "Error while fetching employee details");
+    }
+    res.status(200).json(new ApiResponse(201, employee, "Employee Data fetched successfully"))
+})
+
+export {createEmployee, getEmployees}
