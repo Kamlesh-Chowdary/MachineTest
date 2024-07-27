@@ -28,7 +28,7 @@ class EmployeeService {
       );
       return response.data;
     } catch (error) {
-      throw error.message;
+      throw error.response.data;
     }
   }
 
@@ -37,7 +37,7 @@ class EmployeeService {
       const response = await axiosInstance.get("/employee/get-employee");
       return response.data;
     } catch (error) {
-      throw error.message;
+      throw error.response.data;
     }
   }
 
@@ -64,7 +64,7 @@ class EmployeeService {
       );
       return response.data;
     } catch (error) {
-      throw error.message;
+      throw error.response.data;
     }
   }
   async deleteEmployee(employeeId) {
@@ -74,7 +74,7 @@ class EmployeeService {
       );
       return response.data;
     } catch (error) {
-      throw error.message;
+      throw error.response.data;
     }
   }
 }

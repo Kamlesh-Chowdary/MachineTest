@@ -2,18 +2,24 @@ import { useEffect } from "react";
 import "./App.css";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
+import { Header } from "./Components/index";
 function App() {
   const adminStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
   useEffect(() => {
     if (adminStatus) {
-      navigate("/dashboard");
+      navigate("/");
     } else {
       navigate("/login");
     }
   }, [adminStatus, navigate]);
 
-  return <Outlet />;
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
 }
 
 export default App;

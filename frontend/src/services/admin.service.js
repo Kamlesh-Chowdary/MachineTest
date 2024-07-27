@@ -9,7 +9,7 @@ class AdminService {
       });
       return response?.data;
     } catch (error) {
-      throw error.message;
+      throw error.response.data;
     }
   }
   async loginAdmin({ username, password }) {
@@ -20,7 +20,7 @@ class AdminService {
       });
       return response?.data;
     } catch (error) {
-      throw error.message;
+      throw error.response.data;
     }
   }
 }
