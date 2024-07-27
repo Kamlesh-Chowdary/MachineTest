@@ -14,5 +14,5 @@ employeeRoute.route("/get-employee").get(getEmployees);
 employeeRoute
   .route("/modify/:employeeId")
   .patch(upload.single("image"), modifyEmployee);
-employeeRoute.route("/delete/:employeeId").get(deleteEmployee);
+employeeRoute.route("/delete/:employeeId").delete(deleteEmployee);
 export default employeeRoute;
