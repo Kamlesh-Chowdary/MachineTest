@@ -40,7 +40,6 @@ const Employee = ({ employee }) => {
     }
   }, [employee, setValue]);
   const formSubmit = async (data) => {
-    console.log(data);
     setError("");
     try {
       if (employee) {

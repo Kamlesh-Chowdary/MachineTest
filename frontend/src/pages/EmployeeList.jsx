@@ -12,6 +12,73 @@ const EmployeeList = () => {
   const employeesPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchEmployee, setSearchEmployee] = useState("");
+  const [isSortedByName, setIsSortedByName] = useState(false);
+  const [isSortedByEmail, setIsSortedByEmail] = useState(false);
+  const [isSortedByDate, setIsSortedByDate] = useState(false);
+  const [isSortedById, setIsSortedById] = useState(false);
+
+  const handleSortByName = () => {
+    if (isSortedByName) {
+      setEmployeesToDisplay(employeeList);
+    } else {
+      const sortByName = [...employeeList].sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+
+      setEmployeesToDisplay(sortByName);
+    }
+    setIsSortedByName((prev) => !prev);
+    setIsSortedByEmail(false);
+    setIsSortedByDate(false);
+    setIsSortedById(false);
+  };
+
+  const handleSortByEmail = () => {
+    if (isSortedByEmail) {
+      setEmployeesToDisplay(employeeList);
+    } else {
+      const sortByEmail = [...employeeList].sort((a, b) =>
+        a.email.localeCompare(b.email)
+      );
+
+      setEmployeesToDisplay(sortByEmail);
+    }
+    setIsSortedByEmail((prev) => !prev);
+    setIsSortedByName(false);
+    setIsSortedByDate(false);
+    setIsSortedById(false);
+  };
+
+  const handleSortByDate = () => {
+    if (isSortedByDate) {
+      setEmployeesToDisplay(employeeList);
+    } else {
+      const sortByDate = [...employeeList].sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      );
+      setEmployeesToDisplay(sortByDate);
+    }
+    setIsSortedByDate(!isSortedByDate);
+    setIsSortedByName(false);
+    setIsSortedByEmail(false);
+    setIsSortedById(false);
+  };
+
+  const handleSortById = () => {
+    if (isSortedById) {
+      setEmployeesToDisplay(employeeList);
+    } else {
+      const sortedById = [...employeeList].sort((a, b) =>
+        a._id.localeCompare(b._id)
+      );
+      setEmployeesToDisplay(sortedById);
+    }
+    setIsSortedById((prev) => !prev);
+    setIsSortedByName(false);
+    setIsSortedByDate(false);
+    setIsSortedByEmail(false);
+  };
+
   useEffect(() => {
     (async () => {
       SetError("");
@@ -24,19 +91,19 @@ const EmployeeList = () => {
       }
     })();
   }, [dispatch]);
-
+  useEffect(() => {
+    setEmployeesToDisplay(employeeList);
+  }, [employeeList]);
   const lastIndex = currentPage * employeesPerPage;
   const firstIndex = lastIndex - employeesPerPage;
 
+  const [employeesToDisplay, setEmployeesToDisplay] = useState(employeeList);
   const employeePagination =
-    employeeList &&
-    employeeList
-      .slice(firstIndex, lastIndex)
-      .filter((employee) => employee.name.includes(searchEmployee));
-  const searchInPagination = employeePagination.filter((employee) =>
-    employee.name.includes(searchEmployee)
-  );
-  console.log(searchInPagination);
+    employeesToDisplay &&
+    employeesToDisplay
+      .filter((employee) => employee.name.includes(searchEmployee))
+      .slice(firstIndex, lastIndex);
+
   const previousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
@@ -51,8 +118,7 @@ const EmployeeList = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await employeeService.deleteEmployee(id);
-      console.log(response);
+      await employeeService.deleteEmployee(id);
       dispatch(deleteEmployee(id));
     } catch (error) {
       SetError(error.message);
@@ -86,15 +152,47 @@ const EmployeeList = () => {
             <thead>
               <tr className="bg-[#BDD6EE] ">
                 <td>S.No</td>
-                <td>Unique Id</td>
+                <td>
+                  Unique Id{" "}
+                  <button
+                    className="bg-white  rounded-xl px-2"
+                    onClick={handleSortById}
+                  >
+                    {isSortedById ? "original" : "sort"}
+                  </button>
+                </td>
                 <td>Image</td>
-                <td>Name</td>
-                <td>Email</td>
+                <td>
+                  Name{" "}
+                  <button
+                    className="bg-white  rounded-xl px-2"
+                    onClick={handleSortByName}
+                  >
+                    {isSortedByName ? "original" : "sort"}
+                  </button>
+                </td>
+                <td>
+                  Email{" "}
+                  <button
+                    className="bg-white  rounded-xl px-2"
+                    onClick={handleSortByEmail}
+                  >
+                    {isSortedByEmail ? "original" : "sort"}
+                  </button>
+                </td>
                 <td>Mobile No</td>
                 <td>Designation</td>
                 <td>Gender</td>
                 <td>Course</td>
-                <td>Create Date</td>
+                <td>
+                  Create Date{" "}
+                  <button
+                    className="bg-white  rounded-xl px-2"
+                    onClick={handleSortByDate}
+                  >
+                    {isSortedByDate ? "original" : "sort"}
+                  </button>
+                </td>
                 <td>Action</td>
               </tr>
             </thead>
@@ -133,7 +231,13 @@ const EmployeeList = () => {
                   );
                 })
               ) : (
-                <p className="text-xl text-center mt-10">No Results Found</p>
+                <tr>
+                  <td colSpan={11}>
+                    <p className="text-xl text-center mt-10">
+                      No Results Found
+                    </p>
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
