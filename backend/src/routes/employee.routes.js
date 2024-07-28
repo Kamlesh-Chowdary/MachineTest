@@ -3,6 +3,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 import {
   createEmployee,
   deleteEmployee,
+  getEmployee,
   getEmployees,
   modifyEmployee,
 } from "../controllers/employee.controller.js";
@@ -11,6 +12,7 @@ const employeeRoute = Routes();
 
 employeeRoute.route("/create").post(upload.single("image"), createEmployee);
 employeeRoute.route("/get-employee").get(getEmployees);
+employeeRoute.route("/single-employee").get(getEmployee);
 employeeRoute
   .route("/modify/:employeeId")
   .patch(upload.single("image"), modifyEmployee);

@@ -30,7 +30,6 @@ const createEmployee = asyncHandler(async (req, res) => {
   if (!imageFilePath) {
     throw new ApiError(400, "Employee Image is required");
   }
-  console.log(imageFilePath.replace("..\\frontend\\public", ""));
   const employeeCreate = await Employee.create({
     image: imageFilePath.replace("..\\frontend\\public", ""),
     name,
@@ -62,6 +61,25 @@ const getEmployees = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json(new ApiResponse(201, employee, "Employee Data fetched successfully"));
+});
+
+const getEmployee = asyncHandler(async (req, res) => {
+  const { employeeId } = req.params;
+
+  if (!employeeId) {
+    throw new ApiError(404, "Employee Id is required");
+  }
+
+  const employeeExist = await Employee.findById(employeeId);
+
+  if (!employeeExist) {
+    throw new ApiError(404, "Invalid Employee Id");
+  }
+  res
+    .status(200)
+    .json(
+      new ApiResponse(201, employeeExist, "Employee Data fetched successfully")
+    );
 });
 
 const modifyEmployee = asyncHandler(async (req, res) => {
@@ -152,4 +170,10 @@ const deleteEmployee = asyncHandler(async (req, res) => {
       );
   }
 });
-export { createEmployee, getEmployees, modifyEmployee, deleteEmployee };
+export {
+  createEmployee,
+  getEmployees,
+  getEmployee,
+  modifyEmployee,
+  deleteEmployee,
+};
