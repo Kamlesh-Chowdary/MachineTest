@@ -22,7 +22,7 @@ const employeeSlice = createSlice({
     },
     deleteEmployee: (state, action) => {
       state.employeeList = state.employeeList.filter(
-        (employee) => employee._id !== action.payload._id
+        (employee) => employee._id !== action.payload
       );
     },
   },
