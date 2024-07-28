@@ -7,6 +7,7 @@ import store from "./store/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.jsx";
 import Home from "./pages/Dashboard.jsx";
+import EmployeeList from "./pages/EmployeeList.jsx";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -19,6 +20,10 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/employee-list",
+        element: <EmployeeList />,
       },
     ],
   },

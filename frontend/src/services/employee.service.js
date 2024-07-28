@@ -70,7 +70,7 @@ class EmployeeService {
   async deleteEmployee(employeeId) {
     try {
       const response = await axiosInstance.delete(
-        `/employee/delete${employeeId}`
+        `/employee/delete/${employeeId}`
       );
       return response.data;
     } catch (error) {
