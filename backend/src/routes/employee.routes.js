@@ -12,7 +12,7 @@ const employeeRoute = Routes();
 
 employeeRoute.route("/create").post(upload.single("image"), createEmployee);
 employeeRoute.route("/get-employee").get(getEmployees);
-employeeRoute.route("/single-employee").get(getEmployee);
+employeeRoute.route("/single-employee/:employeeId").get(getEmployee);
 employeeRoute
   .route("/modify/:employeeId")
   .patch(upload.single("image"), modifyEmployee);

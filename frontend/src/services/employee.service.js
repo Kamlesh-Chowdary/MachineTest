@@ -43,6 +43,17 @@ class EmployeeService {
     }
   }
 
+  async getSingleEmployee(employeeId) {
+    try {
+      const response = await axiosInstance.get(
+        `/single-employee/:${employeeId}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  }
+
   async modifyEmployee(
     employeeId,
     { name, email, phoneNumber, designation, gender, course }
