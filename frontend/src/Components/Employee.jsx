@@ -194,7 +194,7 @@ const Employee = ({ employee }) => {
           </p>
         )}
         {employee && (
-          <div className="py-2">
+          <div className="py-2 w-36">
             <img src={employee.image} alt="Employee Image" />
           </div>
         )}
@@ -205,7 +205,7 @@ const Employee = ({ employee }) => {
           <input
             type="file"
             className="p-2 border border-black w-full"
-            accept="image/png, image/jpg"
+            accept="image/png, image/jpeg"
             {...register("image", {
               required: !employee,
             })}

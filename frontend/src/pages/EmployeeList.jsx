@@ -9,7 +9,6 @@ const EmployeeList = () => {
   const [error, SetError] = useState("");
   const employeeList = useSelector((state) => state.employee.employeeList);
   const navigate = useNavigate();
-  console.log(employeeList);
   useEffect(() => {
     (async () => {
       SetError("");
@@ -77,10 +76,10 @@ const EmployeeList = () => {
             <tbody>
               {employeeList.map((employee, index) => {
                 return (
-                  <tr key={employee._id} className="border ">
+                  <tr key={employee._id} className="border">
                     <td>{index + 1}</td>
                     <td>{employee._id}</td>
-                    <td>
+                    <td className="w-36">
                       <img src={employee.image} alt="Employee Image" />
                     </td>
                     <td>{employee.name}</td>
@@ -91,10 +90,16 @@ const EmployeeList = () => {
                     <td>{employee.course.toUpperCase()}</td>
                     <td>{employee.createdAt.slice(0, 10)}</td>
                     <td>
-                      <button onClick={() => handleUpdate(employee._id)}>
+                      <button
+                        onClick={() => handleUpdate(employee._id)}
+                        className="bg-green-200 p-2"
+                      >
                         Edit
                       </button>
-                      <button onClick={() => handleDelete(employee._id)}>
+                      <button
+                        onClick={() => handleDelete(employee._id)}
+                        className="bg-red-200 p-2 mx-2"
+                      >
                         Delete
                       </button>
                     </td>
