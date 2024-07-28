@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { employeeService } from "../services/employee.service";
 import { useDispatch } from "react-redux";
-import { addEmployee } from "../store/employeeSlice";
+import { addEmployee, modifyEmployee } from "../store/employeeSlice";
 import { useNavigate } from "react-router-dom";
 const Employee = ({ employee }) => {
   const [error, setError] = useState("");
@@ -14,18 +14,43 @@ const Employee = ({ employee }) => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
       name: employee?.name || "",
+      email: employee?.email || "",
+      phoneNumber: employee?.phoneNumber || "",
+      designation: employee?.designation || "",
+      gender: employee?.gender || "",
+      course: employee?.course || "",
+      image: employee?.image || "",
     },
   });
+
+  useEffect(() => {
+    if (employee) {
+      setValue("name", employee.name);
+      setValue("email", employee.email);
+      setValue("phoneNumber", employee.phoneNumber);
+      setValue("designation", employee.designation);
+      setValue("gender", employee.gender);
+      setValue("course", employee.course);
+      setValue("image", employee.image);
+    }
+  }, [employee, setValue]);
   const formSubmit = async (data) => {
     console.log(data);
     setError("");
     try {
       if (employee) {
-        console.log(employee);
+        const response = await employeeService.modifyEmployee(employee._id, {
+          ...data,
+          image: data.image[0],
+        });
+        dispatch(modifyEmployee(response.data));
+        reset();
+        navigate("/employee-list");
       } else {
         const response = await employeeService.createEmployee({
           ...data,
@@ -167,6 +192,11 @@ const Employee = ({ employee }) => {
           <p role="alert" className="text-red-600 font-semibold">
             *Course is required
           </p>
+        )}
+        {employee && (
+          <div className="py-2">
+            <img src={employee.image} alt="Employee Image" />
+          </div>
         )}
         <div className="py-2 flex  items-center">
           <label htmlFor="image" className="w-1/3">

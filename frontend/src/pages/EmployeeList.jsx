@@ -9,7 +9,7 @@ const EmployeeList = () => {
   const [error, SetError] = useState("");
   const employeeList = useSelector((state) => state.employee.employeeList);
   const navigate = useNavigate();
-
+  console.log(employeeList);
   useEffect(() => {
     (async () => {
       SetError("");

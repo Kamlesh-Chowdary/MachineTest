@@ -4,7 +4,7 @@ import ApiResponse from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import fs from "fs";
 const deleteImage = (filePath) => {
-  fs.unlink(filePath, (err) => {
+  fs.unlink(`..\\frontend\\public${filePath}`, (err) => {
     if (err) {
       throw new ApiError(409, "Error while deleting the image");
     } else {
@@ -104,13 +104,9 @@ const modifyEmployee = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required.");
   }
   const imageFilePath = req.file?.path;
-  if (!imageFilePath) {
-    throw new ApiError(400, "Employee Image is required");
-  }
-  if (employeeExist.image !== imageFilePath) {
+  if (imageFilePath) {
     deleteImage(employeeExist.image);
   }
-
   const updateEmployee = await Employee.findByIdAndUpdate(
     employeeId,
     {
@@ -120,7 +116,7 @@ const modifyEmployee = asyncHandler(async (req, res) => {
       designation,
       gender,
       course,
-      image: imageFilePath,
+      image: imageFilePath?.replace("..\\frontend\\public", ""),
     },
     {
       new: true,

@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import Home from "./pages/Dashboard.jsx";
 import EmployeeList from "./pages/EmployeeList.jsx";
 import CreateEmployee from "./pages/CreateEmployee.jsx";
+import EditEmployee from "./pages/EditEmployee.jsx";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +30,10 @@ const routes = createBrowserRouter([
       {
         path: "/create-employee",
         element: <CreateEmployee />,
+      },
+      {
+        path: "/edit-employee/:id",
+        element: <EditEmployee />,
       },
     ],
   },

@@ -46,7 +46,7 @@ class EmployeeService {
   async getSingleEmployee(employeeId) {
     try {
       const response = await axiosInstance.get(
-        `/single-employee/:${employeeId}`
+        `/employee/single-employee/${employeeId}`
       );
       return response.data;
     } catch (error) {
@@ -56,7 +56,7 @@ class EmployeeService {
 
   async modifyEmployee(
     employeeId,
-    { name, email, phoneNumber, designation, gender, course }
+    { name, email, phoneNumber, designation, gender, image, course }
   ) {
     try {
       const response = await axiosInstance.patch(
@@ -68,6 +68,7 @@ class EmployeeService {
           designation,
           gender,
           course,
+          image,
         },
         {
           headers: {
