@@ -16,7 +16,8 @@ function App() {
 
   return (
     <>
-      <Header />
+      {adminStatus && <Header />}
+
       <Outlet />
     </>
   );

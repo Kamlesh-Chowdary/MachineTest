@@ -9,11 +9,13 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     try {
       const adminData = await adminService.loginAdmin({ username, password });
       dispatch(login(adminData.data.username));
+      setUsername("");
+      setPassword("");
     } catch (error) {
-      console.log(error.message);
       setError(error.message);
     }
   };
@@ -25,10 +27,10 @@ const LoginPage = () => {
           {error && <p className="text-red-600 font-semibold">{error}</p>}
           <div className="w-1/4 flex text-nowrap ">
             <label htmlFor="username" className="text-lg px-3">
-              User Name
+              Username
             </label>
             <input
-              className="border-black rounded border-2 text-lg px-2"
+              className="border-black rounded border-2 text-lg px-2 w-full"
               type="text"
               name="username"
               value={username}
@@ -40,7 +42,7 @@ const LoginPage = () => {
               Password
             </label>
             <input
-              className="border-black rounded border-2 text-lg px-2 "
+              className="border-black rounded border-2 text-lg px-2 w-full"
               type="password"
               name="password"
               value={password}
@@ -48,7 +50,7 @@ const LoginPage = () => {
             />
           </div>
           <button
-            className="px-3 py-1 bg-[#92D050] rounded w-1/4"
+            className="px-3 py-1 bg-[#92D050] rounded w-1/4 hover:bg-green-200"
             type="submit"
           >
             Login
