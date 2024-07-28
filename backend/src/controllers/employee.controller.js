@@ -30,9 +30,9 @@ const createEmployee = asyncHandler(async (req, res) => {
   if (!imageFilePath) {
     throw new ApiError(400, "Employee Image is required");
   }
-
+  console.log(imageFilePath.replace("..\\frontend\\public", ""));
   const employeeCreate = await Employee.create({
-    image: imageFilePath,
+    image: imageFilePath.replace("..\\frontend\\public", ""),
     name,
     email,
     phoneNumber,

@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.jsx";
 import Home from "./pages/Dashboard.jsx";
 import EmployeeList from "./pages/EmployeeList.jsx";
+import CreateEmployee from "./pages/CreateEmployee.jsx";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +25,10 @@ const routes = createBrowserRouter([
       {
         path: "/employee-list",
         element: <EmployeeList />,
+      },
+      {
+        path: "/create-employee",
+        element: <CreateEmployee />,
       },
     ],
   },

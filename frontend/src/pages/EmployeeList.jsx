@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { employeeService } from "../services/employee.service";
 import { deleteEmployee, setEmployees } from "../store/employeeSlice";
 import { NavLink, useNavigate } from "react-router-dom";
+
 const EmployeeList = () => {
   const dispatch = useDispatch();
   const [error, SetError] = useState("");
   const employeeList = useSelector((state) => state.employee.employeeList);
   const navigate = useNavigate();
 
-  console.log(employeeList);
   useEffect(() => {
     (async () => {
       SetError("");
@@ -24,7 +24,7 @@ const EmployeeList = () => {
   }, [dispatch]);
 
   const handleUpdate = (id) => {
-    navigate(`/edit-employee/${id}`, { state: { id } });
+    navigate(`/edit-employee/${id}`);
   };
 
   const handleDelete = async (id) => {
@@ -81,7 +81,7 @@ const EmployeeList = () => {
                     <td>{index + 1}</td>
                     <td>{employee._id}</td>
                     <td>
-                      <img src={employee.image} alt="image" />
+                      <img src={employee.image} alt="Employee Image" />
                     </td>
                     <td>{employee.name}</td>
                     <td>{employee.email}</td>

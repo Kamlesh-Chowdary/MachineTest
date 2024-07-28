@@ -8,9 +8,10 @@ class EmployeeService {
     designation,
     gender,
     course,
+    image,
   }) {
     try {
-      const response = await axiosInstance(
+      const response = await axiosInstance.post(
         "/employee/create",
         {
           name,
@@ -19,6 +20,7 @@ class EmployeeService {
           designation,
           gender,
           course,
+          image,
         },
         {
           headers: {
